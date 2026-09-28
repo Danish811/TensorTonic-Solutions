@@ -1,18 +1,12 @@
-def interaction_features(X: list) -> list:
-    """
-    Returns original features followed by unique pairwise products.
-    """
-    import numpy as np
+import numpy as np
 
-    #X = np.asarray(X)
-    resList = []
-    for arr in X:
-        newList = arr[:]
-        for i in range(len(arr)):
-            for j in range(i+1, len(arr)):
-                res = arr[i]*arr[j]
-                newList.append(res)
-                
-        resList.append(newList)
-    print(resList)
-    return resList
+def interaction_features(X: list) -> list:
+
+    res = []
+    for row in X:
+        arr = np.asarray(row)
+        n = len(arr)
+        i, j = np.triu_indices(n, k=1)
+        interactions = arr[i] * arr[j]
+        res.append(np.concatenate([arr, interactions]).tolist())
+    return res
